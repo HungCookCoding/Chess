@@ -1,0 +1,6 @@
+
+WIDTH = HEIGHT = 720
+
+ROW = COL = 8 
+
+SQSIZE = WIDTH / COL 
