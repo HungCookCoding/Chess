@@ -4,6 +4,7 @@ import sys
 
 from const import *
 from draw import Draw
+from game import Game
 
 class Main:
 
@@ -13,23 +14,24 @@ class Main:
         pygame.display.set_caption('Chess')
 
         self.draw = Draw()
+        self.game = Game()
+        self.board = self.game.board
 
 
     def GameStart(self):
-        
-        draw = self.draw
-        screen = self.screen
 
         while True:
 
-            draw.draw_board(screen)
-            
+            self.draw.draw_board(self.screen)
+            self.draw.draw_piece(self.screen, self.board)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
             pygame.display.update()
+
 
 main = Main()
 main.GameStart()

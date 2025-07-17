@@ -1,6 +1,7 @@
 
 import pygame
 from const import *
+from game import Game
 
 class Draw:
 
@@ -14,3 +15,11 @@ class Draw:
                     color = (119, 154, 88)
                 
                 pygame.draw.rect(surface, color, rect)
+
+    def draw_piece(self, surface, board):
+        for row in range(ROW):
+            for col in range(COL):
+                if board[row][col].have_piece():
+                    rect = (col * SQSIZE, row * SQSIZE)
+                    surface.blit(board[row][col].piece.img, rect)
+                
