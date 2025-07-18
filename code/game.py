@@ -64,17 +64,22 @@ class Game:
                 color = self.board[row][col].color_piece()
                 name = self.board[row][col].name_piece()
                 if (color == 'W' and self.turn_white) or (color == 'B' and not self.turn_white):
-                    if name == 'Pawn': 
-                        self.move_pawn(row, col, color, moves)
+                    if name == 'Pawn': self.move_pawn(row, col, color, moves)
+                    elif name == 'Knight': self.move_knight(row, col, color, moves)
+                    elif name == 'Bishop': self.move_bishop(row, col, color, moves)
+                    elif name == 'Rook': self.move_rook(row, col, color, moves)
+                    elif name == 'Queen': self.move_queen(row, col, color, moves)
+                    elif name == 'King': self.move_king(row, col, color, moves)
+                    
         
         
         return moves
 
     def move_pawn(self, row, col, color, moves):
-        dir = -1 if color == 'W' else 1              #hướng đi của tốt
+        dir = -1 if color == 'W' else 1              #hướng đi của quân
 
         if color == 'W':
-            moved = False if row == 6 else True      #xác định quân tốt đã di chuyển chưa
+            moved = False if row == 6 else True      #xác định quân đã di chuyển chưa
         else:
             moved = False if row == 1 else True
         
@@ -92,16 +97,69 @@ class Game:
                 moves.append(Move((row, col), (row+1*dir, col-1), self.board))
     
     def move_knight(self, row, col, color, moves):
-        dir = ()
+        dir = ((-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1))
+        enemy = 'B' if color == 'W' else 'W'
+
+        for m in dir:
+            end_row = row + m[0]
+            end_col = col + m[1]
+            if 0 <= end_row < 8 and 0 <= end_col < 8:
+                if not self.board[end_row][end_col].have_piece():
+                    moves.append(Move((row, col), (end_row, end_col), self.board))
+                elif self.board[end_row][end_col].color_piece() == enemy:
+                    moves.append(Move((row, col), (end_row, end_col), self.board))
     
     def move_bishop(self, row, col, color, moves):
-        pass
+        dir = ((-1, 1), (1, 1), (-1, -1), (1, -1))
+        enemy = 'B' if color == 'W' else 'W'
+
+        for m in dir:
+            for i in range(1, 8):
+                end_row = row + m[0] * i 
+                end_col = col + m[1] * i 
+                if 0 <= end_row < 8 and 0 <= end_col < 8:
+                    if not self.board[end_row][end_col].have_piece():
+                        moves.append(Move((row, col), (end_row, end_col), self.board))
+                    elif self.board[end_row][end_col].color_piece() == enemy:
+                        moves.append(Move((row, col), (end_row, end_col), self.board))
+                        break 
+                    else:
+                        break
+                else:
+                    break
 
     def move_rook(self, row, col, color, moves):
-        pass
+        dir = ((-1, 0), (0, 1), (1, 0), (0, -1))
+        enemy = 'B' if color == 'W' else 'W'
+
+        for m in dir:
+            for i in range(1, 8):
+                end_row = row + m[0] * i 
+                end_col = col + m[1] * i 
+                if 0 <= end_row < 8 and 0 <= end_col < 8:
+                    if not self.board[end_row][end_col].have_piece():
+                        moves.append(Move((row, col), (end_row, end_col), self.board))
+                    elif self.board[end_row][end_col].color_piece() == enemy:
+                        moves.append(Move((row, col), (end_row, end_col), self.board))
+                        break 
+                    else:
+                        break
+                else:
+                    break
 
     def move_queen(self, row, col, color, moves):
-        pass
+        self.move_bishop(row, col, color, moves)
+        self.move_rook(row, col, color, moves)
 
     def move_king(self, row, col, color, moves):
-        pass
+        dir = ((-1, 0), (0, 1), (1, 0), (0, -1), (-1, 1), (1, 1), (-1, -1), (1, -1))
+        enemy = 'B' if color == 'W' else 'W'
+
+        for m in dir:
+            end_row = row + m[0] 
+            end_col = col + m[1] 
+            if 0 <= end_row < 8 and 0 <= end_col < 8:
+                if not self.board[end_row][end_col].have_piece():
+                    moves.append(Move((row, col), (end_row, end_col), self.board))
+                elif self.board[end_row][end_col].color_piece() == enemy:
+                    moves.append(Move((row, col), (end_row, end_col), self.board))

@@ -45,11 +45,11 @@ class Main:
                     if len(self.game.click) == 2:
                         move = Move(self.game.click[0], self.game.click[1], self.board)
                         print(move.move_loca(self.game.click[0], self.game.click[1]))
-
+                        
                         if move in self.game.valid_moves:
                             self.game.make_move(move)
                             self.game.valid_moves = self.game.get_possible_move()
-                        
+                            
                         self.game.square_click = ()
                         self.game.click = []
                             
