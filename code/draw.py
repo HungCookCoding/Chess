@@ -5,6 +5,9 @@ from game import Game
 
 class Draw:
 
+    def __init__(self):
+        self.game = Game()
+
     def draw_board(self, surface):
         for row in range(ROW):
             for col in range(COL):

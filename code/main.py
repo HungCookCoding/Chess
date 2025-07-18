@@ -4,7 +4,7 @@ import sys
 
 from const import *
 from draw import Draw
-from game import Game
+from move import Move
 
 class Main:
 
@@ -14,8 +14,8 @@ class Main:
         pygame.display.set_caption('Chess')
 
         self.draw = Draw()
-        self.game = Game()
-        self.board = self.game.board
+        self.game = self.draw.game
+        self.board = self.draw.game.board
 
 
     def GameStart(self):
@@ -29,6 +29,34 @@ class Main:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+            
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = pygame.mouse.get_pos()
+                    row = int(y // SQSIZE)
+                    col = int(x // SQSIZE)
+
+                    if self.game.square_click == (row, col):
+                        self.game.square_click = ()
+                        self.game.click = []
+                    else:
+                        self.game.square_click = (row, col)
+                        self.game.click.append(self.game.square_click)
+                    
+                    if len(self.game.click) == 2:
+                        move = Move(self.game.click[0], self.game.click[1], self.board)
+                        print(move.move_loca(self.game.click[0], self.game.click[1]))
+
+                        if move in self.game.valid_moves:
+                            self.game.make_move(move)
+                            self.game.valid_moves = self.game.get_possible_move()
+                        
+                        self.game.square_click = ()
+                        self.game.click = []
+                            
+                
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_z:
+                        self.game.undo_move()
 
             pygame.display.update()
 

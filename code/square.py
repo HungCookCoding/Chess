@@ -9,3 +9,13 @@ class Square:
 
     def have_piece(self):
         return self.piece != None
+    
+    def name_piece(self):
+        if self.have_piece():
+            return self.piece.name
+        return '-'
+    
+    def color_piece(self):
+        if self.have_piece():
+            return self.piece.color
+        return '-'

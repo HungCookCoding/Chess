@@ -8,7 +8,7 @@ class Piece:
         self.name = name 
         self.color = color 
         self.value = value
-        self.img = pygame.transform.scale(pygame.image.load('img/' + self.color + self.name + '.png'), (SQSIZE, SQSIZE))
+        self.img = pygame.image.load('img/' + self.color + self.name + '.png')
     
 
 class Pawn(Piece):

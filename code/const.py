@@ -1,5 +1,5 @@
 
-WIDTH = HEIGHT = 720
+WIDTH = HEIGHT = 640
 
 ROW = COL = 8 
 
